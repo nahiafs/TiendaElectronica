@@ -31,7 +31,7 @@ namespace MusicaLMFL.Controllers
                 producto.Estado = producto.Estado == null ? "desconocido" : producto.Estado;
                 producto.Borrado = "0";
 
-                productos.Add(producto);
+                productos.Add((TProducto) producto);
 
                 if (control.Insertar(productos))
                 {

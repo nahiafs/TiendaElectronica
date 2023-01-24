@@ -2,7 +2,7 @@
 @using MusicaLMFL.Models
 
 <h3 style="margin-bottom: 25px; text-align: center;">Añadir producto</h3>
-<p class="text-left">Mensaje: <span id="mensaje">Nulo</span></p>
+<p class="text-center">Mensaje: <span id="mensaje"></span></p>
 
 <div class="container">
     <div class="col-md-10">
@@ -58,7 +58,7 @@
     function Enviar()
     {
         event.preventDefault();
-        var uri = @Url.Action("aniadir", "Producto");
+        var uri = @Url.Action("Aniadir", "Producto");
         var producto = {};
         producto = cargarProducto(producto);
         $.ajax({
@@ -75,9 +75,9 @@
     }
 
     function cargarProducto(producto) {
-        disco.Nombre = document.getElementById("nombre").value;
-        disco.Marca = document.getElementById("marca").value;
-        disco.Categoria = document.getElementById("categoria").value;
+        producto.Nombre = document.getElementById("nombre").value;
+        producto.Marca = document.getElementById("marca").value;
+        producto.Categoria = document.getElementById("categoria").value;
         producto.Precio = document.getElementById("precio").value;
         producto.Imagen = document.getElementById("imagen").value;
 
