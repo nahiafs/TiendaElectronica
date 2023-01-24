@@ -6,14 +6,14 @@ namespace MusicaLMFL.Modelo
     {
 
         public string CodFactura { get; set; }
-        public string Disco { get; set; }
+        public string Producto { get; set; }
         public string Cantidad { get; set; }
         public string Total { get; set; }
 
-        public TLineaFactura(string codFactura, string disco, string cantidad, string total)
+        public TLineaFactura(string codFactura, string producto, string cantidad, string total)
         {
             CodFactura = codFactura;
-            Disco = disco;
+            Producto = producto;
             Cantidad = cantidad;
             Total = total;
         }
@@ -29,11 +29,11 @@ namespace MusicaLMFL.Modelo
 
         public override string ToString()
         {
-            return Disco + " "+Cantidad+" "+Total;
+            return Producto + " "+Cantidad+" "+Total;
         }
         public override bool Equals(object obj)
         {
-            return ((TLineaFactura)obj).Disco == Disco;
+            return ((TLineaFactura)obj).Producto == Producto;
         }
     }
 }

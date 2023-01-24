@@ -1,16 +1,18 @@
-﻿namespace MusicaLMFL.Modelo
+﻿using MusicaLMFL.Models;
+
+namespace MusicaLMFL.Modelo
 {
     public class LineaAuxiliar
     {
         public string CodFactura { get; set; }
-        public TDisco Disco { get; set; }
+        public TProducto Producto { get; set; }
         public string Cantidad { get; set; }
         public string Total { get; set; }
 
-        public LineaAuxiliar(string codFactura, TDisco disco, string cantidad, string total)
+        public LineaAuxiliar(string codFactura, TProducto producto, string cantidad, string total)
         {
             CodFactura = codFactura;
-            Disco = disco;
+            Producto = producto;
             Cantidad = cantidad;
             Total = total;
         }

@@ -31,35 +31,26 @@
 </div>
 
 <div class="container">
-    <div class="row">
+    <div class="row carrito">
         <main id="items" class="col-sm-8 row"></main>
         <aside class="col-sm-4">
             <h2>Carrito</h2>
             <ul id="carrito" class="list-group"></ul>
             <hr>
             <p class="text-right">Total: <span id="total"></span>&euro;</p>
+            <div class="text-center"><input id="botonComprar" type="button" value="Comprar" onclick="comprar()" class="btn btn-primary" /></div>
         </aside>
         <p class="text-right">Mensaje: <span id="mensaje"></span></p>
     </div>
 </div>
 
 <script>
+    let map = new Map();
     let $items = document.querySelector('#items');
-    //let carrito = [];
     let total = 0;
     let $carrito = document.querySelector('#carrito');
     let $total = document.querySelector('#total');
     let $mensaje = document.querySelector('#mensaje');
-
-    //*********************  ATENCIÓN A LAS SIGUIENTES DOS LÍNEAS ************************
-    // En versiones anteriores no fue necesario declarar carrito. Ahora es necesario
-    // Se indica por si se produjese algún error y poder seguirlo si se produce por esta
-    // circunstancia, aunque la mejor manera es la declaración de let carrito.
-    // Si se corrompe la variable carrito, es decir que es usada por otra aplicación,
-    // dará problemas nuestra aplicación pues manejará datos no correctos.
-    // Para que no se produzca el error habría que borrar el localstorage puesto que tiene
-    // elementos corruptos. ESTO HAY QUE SEGUIR TRABAJANDOLO para encontrar la mejor manera
-    // de usarlo o utilizar Sessionstorage.
     let carrito;
 
     // Tenemos que poner estas comprobaciones para que funcione la recuperación
@@ -78,35 +69,43 @@
     // Funciones
     //*************************************************
     function anyadirCarrito(dato) {
-        // Anyadimos el Nodo a nuestro carrito
-        //carrito.push(this.getAttribute('marcador'))
-        carrito.push(dato);
-        // Calculo el total
+        var encontrado = false;
+        if (carrito.length == 0) {
+            map.set(dato[0].CodProducto, 1);
+            carrito.push(dato)
+        }
+        else {
+            for (var i = 0; i < carrito.length; i++) {
+                var codProducto = carrito[i][0].CodProducto;
+                if (codProducto == dato[0].CodProducto && !encontrado) {
+                    var cantidad = map.get(codProducto);
+                    cantidad += 1;
+                    map.set(codProducto, cantidad);
+                    encontrado = true;
+                }
+            }
+            if (!encontrado) {
+                map.set(dato[0].CodProducto, 1);
+                carrito.push(dato);
+            }
+        }
         calcularTotal(carrito);
-        // Renderizamos el carrito
         renderizarCarrito(carrito);
     }
 
     function renderizarCarrito(carrito) {
-        // Vaciamos todo el html
         $carrito.textContent = '';
         // Generamos los Nodos a partir de carrito
         var indice=0;
         for (let miItem of carrito)
         {
-            //carrito.forEach(function (item, indice) {
-            // Obtenemos el item que necesitamos de la variable base de datos
-            //let miItem = baseDeDatos.filter(function (itemBaseDatos) {
-            //    return itemBaseDatos['CodLibro'] == item;
-            //});
+
             // Creamos el nodo del item del carrito
             let miNodo = document.createElement('li');
             miNodo.classList.add('list-group-item', 'text-right');
-            //miNodo.textContent = miItem['Titulo'] - miItem['Precio'];
-                //miNodo.textContent = miItem['Titulo'];
-
-            //miNodo.textContent = `${miItem[0]['Titulo']}`;
-            miNodo.textContent =`${miItem[0]['Nombre']} - ${miItem[0]['Precio']}€`
+            // ---------- VER ------------------
+            // miNodo.textContent = `${map.get(miItem[0].CodProducto)} - ${miItem[0]['Nombre']} - ${parseInt(miItem[0]['Precio']) * map.get(miItem[0].CodProducto)}€`;
+            miNodo.textContent = `${miItem[0]['Nombre']} - ${parseInt(miItem[0]['Precio'])}€`;
             // Boton de borrar
             let miBoton = document.createElement('button');
             miBoton.classList.add('btn', 'btn-danger', 'mx-5');
@@ -121,20 +120,11 @@
     }
 
     function borrarItemCarrito() {
-        // Obtenemos la posicion que hay en el boton pulsado
         let posicion = this.getAttribute('posicion');
-        // Borramos la posicion que nos interesa
         carrito.splice(posicion, 1);
-        // volvemos a renderizar
-        //********************************************************************************************
-        //Borramos el carro de la compra cada vez que borramos uno de los item.
-        //Volvemos a crear el carro con los elementos restantes del array carrito, guardándolo en
-        //localStorage.
-        //********************************************************************************************
         localStorage.removeItem("carrito");
         localStorage.carrito = JSON.stringify(carrito);
         renderizarCarrito(carrito);
-        // Calculamos de nuevo el precio
         calcularTotal(carrito);
     }
 
@@ -143,6 +133,10 @@
         total = 0;
         // Recorremos el array del carrito
         for (let miItem of carrito) {
+            var cantidad = map.get(miItem[0].CodProducto)
+            // ---------- VER ------------------
+            //var totalProducto = parseInt(miItem[0]['Precio']) * cantidad;
+            //total = total + totalProducto;
             total = total + parseInt(miItem[0]['Precio']);
         }
         // Formateamos el total para que solo tenga dos decimales
@@ -158,17 +152,20 @@
     }
 
     function comprar() {
-        var uri = '@Url.Action("comprar", "Libro")';
-        var lineas = lineasFactura(carrito);
-        //EN ESTE APARTADO CUANDO LA COMPRA SEA CORRECTA SE SACARÁ MENSAJE INFORMATIVO Y SE BORRARÁ EL CARRITO
-        //DE localStorage.
-        $.ajax({
-            url: uri,
-            data: JSON.stringify(lineas),
-            type: 'POST',
-            success:exito,
-            contentType: 'application/json'
-        });
+        if (carrito.length > 0) {
+            var uri = '@Url.Action("comprar", "Producto")';
+            var lineas = lineasFactura(carrito);
+            //EN ESTE APARTADO CUANDO LA COMPRA SEA CORRECTA SE SACARÁ MENSAJE INFORMATIVO Y SE BORRARÁ EL CARRITO
+            //DE localStorage.
+            $.ajax({
+                url: uri,
+                data: JSON.stringify(lineas),
+                type: 'POST',
+                success: exito,
+                contentType: 'application/json'
+            });
+        }
+        
     }
 
     function exito(data) {
@@ -176,27 +173,21 @@
         $mensaje.textContent = data;
         // Se realiza el borrado del carrito del almacén local una vez que la compra ha tenido éxito.
         localStorage.removeItem("carrito");
+        $carrito.textContent = '';
+        $total.textContent = '';
+
     }
 
     function lineasFactura(carrito)
     {
-        // Creamos un array vacío
-            var lineas = [];
-        // Creamos un objeto vacío
-            var lf = {};
-        //*********************************** CODIGO 1 *********************************************
-        //Proceso de carga de las lineas de factura con un FOR
-        //Ponemos el CodFactura a mano pero seguramente este código se generará en el back-end
-        //La cantaidad y el Total hay que realizar el proceso para automatizarlos. En estos momentos
-        //se pone un número fijo al igual que hacemos con CodFactura.
+        var lineas = [];
+        var lf = {};
         for (let miItem of carrito) {
-            //Inicializamos el objeto cada vuelta de bucle, puesto que si no los hacemos,
-            // todos los objetos del array lineas cogen los valores del último objeto tratado.
             lf = {};
-            lf.CodFactura = 'Cod021';
-            lf.Libro = miItem[0].CodLibro;
-            lf.Cantidad = 2;
-            lf.Total = 200;
+            lf.CodFactura = "";
+            lf.Producto = miItem[0].CodProducto;
+            lf.Cantidad = map.get(miItem[0].CodProducto);
+            lf.Total = miItem[0].Precio * lf.Cantidad;
             lineas.push(lf);
         }
         return lineas;

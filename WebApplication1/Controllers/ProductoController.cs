@@ -134,12 +134,10 @@ namespace MusicaLMFL.Controllers
         [HttpPost]
         public ActionResult comprar(List<TLinea> data)
         {
-            //******************** Grabar objeto FACTURA *************************************************
-            TFactura factura = new TFactura("cod022", "admin", DateTime.Now.ToShortDateString());
+            TFactura factura = new TFactura("", ((TUsuario)Session["usuario"]).Nick, DateTime.Now.ToShortDateString());
+            factura.CodFactura = Util.GenerarCodigo(factura.GetType());
             List<object> listaFacturaTemp = new List<object>();
             listaFacturaTemp.Add(factura);
-            //control.Insertar(listaFacturaTemp);
-            //******************** Grabar las Líneas de Factura.
             List<object> listaLineasFactura = new List<object>();
 
             foreach (TLinea linea in data)
@@ -148,8 +146,8 @@ namespace MusicaLMFL.Controllers
                 listaLineasFactura.Add(lineaTemp);
             }
 
-            //control.Insertar(listaLineasFactura);
-            //********************
+            control.Insertar(listaLineasFactura);
+            control.Insertar(listaFacturaTemp);
             return Json("Factura guardada correctamente");
         }
     }
