@@ -58,7 +58,7 @@
     function Enviar()
     {
         event.preventDefault();
-        var uri = @Url.Action("Aniadir", "Producto");
+        var uri = '@Url.Action("Aniadir", "Producto")';
         var producto = {};
         producto = cargarProducto(producto);
         $.ajax({
