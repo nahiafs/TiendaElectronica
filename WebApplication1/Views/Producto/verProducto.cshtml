@@ -1,0 +1,19 @@
+﻿@model MusicaLMFL.Models.TProducto
+@{
+    ViewBag.Title = "verProducto";
+    Layout = "~/Views/Plantilla/Plantilla.cshtml";
+}
+
+<h2>@Model.Nombre</h2>
+
+<div class="d-flex align-items-center">
+    <div class="p-2"><img style="width:75%" src="@Model.Imagen" /></div>
+    <div class="p-2">
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Marca:</strong> @Model.Marca</li>
+            <li class="list-group-item"><strong>Categoria:</strong> @Model.Categoria</li>
+            <li class="list-group-item"><strong>Precio:</strong> @Model.Precio €</li>
+            <li class="list-group-item"><strong>Estado:</strong> @Model.Estado</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+﻿@model List<object>
+@using MusicaLMFL.Models
+
+<h3 style="margin-bottom: 25px; text-align: center;">Añadir producto</h3>
+<p class="text-left">Mensaje: <span id="mensaje">Nulo</span></p>
+
+<div class="container">
+    <div class="col-md-10">
+        <div class="form-area">
+            <form class="form" method="post" id="my_form" onsubmit="Enviar()">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input name="Nombre" type="text" maxlength="30" required="3" class="form-control" id="nombre" />
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca</label>
+                    <input name="Marca" type="text" maxlength="30" minlength="3" required="" class="form-control" id="marca" />
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select name="Categoria" class="form-control" id="categoria">
+                        @foreach (TCategoria categoria in Model)
+                        {
+                            <option value="@categoria.Categoria">@categoria.Categoria</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input name="Precio" type="text" required="" class="form-control" id="precio" />
+                </div>
+                <fieldset class="form-group">
+                    <legend>Estado: </legend>
+                    <input type="radio" name="Estado" value="Nuevo" id="nuevo" />Nuevo<br />
+                    <input type="radio" name="Estado" value="SegundaMano" id="segundaMano" />SegundaMano<br />
+                </fieldset>
+                <div class="form-group">
+                    <label for="imagen">Imagen</label>
+                    <input name="Imagen" type="text" required="" class="form-control" placeholder="Imagen" id="imagen" />
+                </div>
+
+                <br>
+
+                <div class="submit">
+                    <input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right" />
+                    <input type="reset" value="Borrar Campos" class="btn btn-danger pull-right" id="button-reset">
+                    <div class="ease"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let $mensaje = document.querySelector("#mensaje");
+
+    function Enviar()
+    {
+        event.preventDefault();
+        var uri = @Url.Action("aniadir", "Producto");
+        var producto = {};
+        producto = cargarProducto(producto);
+        $.ajax({
+            url: uri,
+            data: JSON.stringify(producto),
+            type: 'POST',
+            success: exito,
+            contentType: 'application/json'
+        });
+    }
+
+    function exito(data) {
+        $mensaje.textContent = data;
+    }
+
+    function cargarProducto(producto) {
+        disco.Nombre = document.getElementById("nombre").value;
+        disco.Marca = document.getElementById("marca").value;
+        disco.Categoria = document.getElementById("categoria").value;
+        producto.Precio = document.getElementById("precio").value;
+        producto.Imagen = document.getElementById("imagen").value;
+
+        if (document.getElementById("nuevo").checked)
+            producto.Estado = document.getElementById("nuevo").value;
+        if (document.getElementById("segundaMano").checked)
+            producto.Estado = document.getElementById("segundaMano").value;
+
+        return producto;
+    }
+</script>

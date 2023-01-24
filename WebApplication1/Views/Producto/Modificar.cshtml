@@ -1,0 +1,55 @@
+﻿@using MusicaLMFL.Models
+@{
+    ViewBag.Title = "Modificar";
+    Layout = "~/Views/Plantilla/Plantilla.cshtml";
+    TProducto producto = Model[0];
+}
+
+<h3 style="margin-bottom: 25px; text-align: center;">Modificar producto</h3>
+
+<div class="container">
+    <div class="col-md-10">
+        <div class="form-area">
+            <form class="form" method="post" id="my_form" onsubmit="Enviar()">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input name="Nombre" type="text" maxlength="30" required="3" class="form-control" id="nombre" value="@producto.Nombre" />
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca</label>
+                    <input name="Marca" type="text" maxlength="30" minlength="3" required="" class="form-control" id="marca" value="@producto.Marca" />
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select name="Categoria" class="form-control" id="categoria" value="@producto.Categoria">
+                        @foreach (TCategoria categoria in Model[1])
+                        {
+                            <option value="@categoria.Categoria">@categoria.Categoria</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input name="Precio" type="text" required="" class="form-control" id="precio" value="@producto.Precio" />
+                </div>
+                <fieldset class="form-group">
+                    <legend>Estado: </legend>
+                    <input type="radio" name="Estado" value="Nuevo" id="nuevo" @(producto.Estado == "Nuevo" ? "checked" : "")/>Nuevo<br />
+                    <input type="radio" name="Estado" value="SegundaMano" id="segundaMano" @(producto.Estado == "Segunda mano" ? "checked" : "")/>SegundaMano<br />
+                </fieldset>
+                <div class="form-group">
+                    <label for="imagen">Imagen</label>
+                    <input name="Imagen" type="text" required="" class="form-control" placeholder="Imagen" id="imagen" value="@producto.Imagen" />
+                </div>
+
+                <br>
+
+                <div class="submit">
+                    <input type="submit" id="botonEnviar" value="Modificar" class="btn btn-primary pull-right" />
+                    <div class="ease"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

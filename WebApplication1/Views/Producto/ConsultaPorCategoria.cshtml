@@ -1,0 +1,63 @@
+﻿@model List<MusicaLMFL.Models.TProducto>
+@using MusicaLMFL.Modelo
+@{
+    ViewBag.Title = "Productos";
+}
+
+<h2>Productos de la tienda</h2>
+
+<br />
+
+<div>
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Auriculares", "ConsultaPorCategoria", "Producto", new { categoria = "Auriculares" }, new { style = "text-decoration:none; color:white;" })</button>
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Mandos", "ConsultaPorCategoria", "Producto", new { categoria = "Mandos" }, new { style = "text-decoration:none; color:white;" })</button>
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Monitor", "ConsultaPorCategoria", "Producto", new { categoria = "Monitor" }, new { style = "text-decoration:none; color:white;" })</button>
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Ratón", "ConsultaPorCategoria", "Producto", new { categoria = "Ratón" }, new { style = "text-decoration:none; color:white;" })</button>
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Teclado", "ConsultaPorCategoria", "Producto", new { categoria = "Teclado" }, new { style = "text-decoration:none; color:white;" })</button>
+    <button type="button" class="btn btn-danger">@Html.ActionLink("X", "Consultar", "Producto", new { style = "text-decoration:none; color:white;" })</button>
+</div>
+
+<br />
+
+<br />
+
+<div class="consultar" style="display: flex; flex-wrap: wrap;">
+    @foreach (var producto in @Model)
+    {
+        <div class="card" style="width: 18%;"  id= @producto.CodProducto>
+            <img src="@producto.Imagen" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@producto.Nombre</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Marca: @producto.Marca</li>
+                <li class="list-group-item">Categoría: @producto.Categoria</li>
+                <li class="list-group-item">Estado: @producto.Estado</li>
+                <li class="list-group-item">Precio: @producto.Precio€</li>
+            </ul>
+            <div class="card-body">
+                <button href="#" class="btn btn-dark">@Html.ActionLink("VerProducto", "verProducto", "Producto", new { CodProducto = producto.CodProducto }, new { @style = "color:white; text-decoration:none;" })</button>
+                @if (Session["usuario"] != null && ((TUsuario)Session["usuario"]).Rol.Equals("admin"))
+                {
+                    <button href="#" class="btn btn-success">@Html.ActionLink("Modificar", "Modificar", "Producto", new { CodProducto = producto.CodProducto }, new { @style = "color:white; text-decoration:none;" })</button>
+                    <button href="#" class="btn btn-danger">
+                        @Ajax.ActionLink("Eliminar", "Eliminar", "Producto", new { CodProducto = producto.CodProducto }, new AjaxOptions()
+                        {
+                            HttpMethod = "GET",
+                        }, new { id = producto.CodProducto, onClick = "borrarProducto(id);" })
+                    </button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function borrarProducto(id) {
+        var lista = document.getElementById(id);
+
+        if (lista.hasChildNodes) {
+            lista.parentNode.removeChild(lista);
+        }
+    }
+</script>
