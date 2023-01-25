@@ -4,16 +4,23 @@ using MusicaLMFL.Modelo;
 using MusicaLMFL.Comun;
 using System.Collections.Generic;
 using System.Linq;
+using MusicaLMFL.Models;
 
 namespace WebApplication1.Controllers
 {
     public class InicioController : Controller
     {
         ControlAccesoDAO<TUsuario> control = new ControlAccesoDAO<TUsuario>();
-        
+        List<TProducto> lista = new List<TProducto>();
+
         public ActionResult Inicio()
         {
-            return View();
+            foreach (var item in control.Obtener(new TProducto().GetType()))
+            {
+                lista.Add((TProducto) item);
+            }
+
+            return View(lista);
         }
 
         [HttpPost]
@@ -27,7 +34,7 @@ namespace WebApplication1.Controllers
                 {
                     usuTemp.Pass = null;
                     Session.Add("usuario", usuTemp);
-                    return View("Inicio");
+                    return View("Inicio", lista);
                 }
                 else
                 {
@@ -54,7 +61,7 @@ namespace WebApplication1.Controllers
                 if (control.Insertar(listaUsu))
                 {
                     Session["usuario"] = usuario;
-                    return View("Inicio");
+                    return View("Inicio", lista);
                 }
                 else
                 {
