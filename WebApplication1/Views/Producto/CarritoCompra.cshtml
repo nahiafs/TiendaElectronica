@@ -92,6 +92,7 @@
         }
         calcularTotal(carrito);
         renderizarCarrito(carrito);
+        init();
     }
 
     function renderizarCarrito(carrito) {
@@ -127,6 +128,7 @@
         localStorage.carrito = JSON.stringify(carrito);
         renderizarCarrito(carrito);
         calcularTotal(carrito);
+        init();
     }
 
     function calcularTotal(carrito) {

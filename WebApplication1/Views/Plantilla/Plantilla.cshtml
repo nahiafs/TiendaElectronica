@@ -153,29 +153,24 @@
     @RenderSection("scripts", required: false)
 
     <script>
-        window.onload = init();
-
-        
+        window.addEventListener("load", init);
 
         function init() {
             let $numElementosCarrito = document.querySelector("#numElementsCarrito");
 
             let carrito;
-            if (localStorage.carrito !== undefined) {
-                carrito = JSON.parse(localStorage.carrito);
+            if (localStorage.getItem('carrito') !== null) {
+                carrito = JSON.parse(localStorage.getItem('carrito'));
             }
-                
-            if (carrito === undefined) {
+
+            if (carrito === undefined || carrito.length === 0) {
                 carrito = [];
                 $numElementosCarrito.textContent = 0;
             } else {
-                $numElementosCarrito.textContent = carrito.lenght;
-                console.log(carrito.lenght);
+                let suma = carrito.reduce((total, elemento) => total + elemento[0].Cantidad, 0);
+                $numElementosCarrito.textContent = suma;
             }
-                
-
-            
-            
+            console.log(carrito)
         }
     </script>
 </body>
