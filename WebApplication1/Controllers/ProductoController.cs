@@ -113,14 +113,7 @@ namespace MusicaLMFL.Controllers
 
         public ActionResult CarritoCompra()
         {
-            List<TProducto> lista = new List<TProducto>();
-
-            foreach (TProducto producto in control.Obtener(new TProducto().GetType()))
-            {
-                lista.Add(producto);
-            }
-
-            return View(lista);
+            return View();
         }
 
         [HttpPost]

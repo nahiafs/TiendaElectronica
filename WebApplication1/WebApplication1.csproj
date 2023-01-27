@@ -286,6 +286,7 @@
     <Content Include="Views\Producto\_Borrar.cshtml" />
     <Content Include="Views\Producto\verProducto.cshtml" />
     <Content Include="Views\Producto\CarritoCompra.cshtml" />
+    <Content Include="Views\Inicio\perfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

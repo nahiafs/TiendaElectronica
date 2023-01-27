@@ -23,6 +23,11 @@ namespace WebApplication1.Controllers
             return View(lista);
         }
 
+        public ActionResult perfil()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Login(TUsuario usuario)
         {
@@ -75,7 +80,7 @@ namespace WebApplication1.Controllers
         public ActionResult CerrarSesion()
         {
             Session["usuario"] = null;
-            return View("Inicio");
+            return View("Inicio", lista);
         }
 
         private bool addUsuario(TUsuario usuario)

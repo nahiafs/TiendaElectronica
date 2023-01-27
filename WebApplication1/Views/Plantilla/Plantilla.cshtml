@@ -54,76 +54,18 @@
                             <div class="dropdown-item">@Html.ActionLink("Consultar", "Consultar", "Producto")</div>
                         </div>
                     </li>
-                    @{
-                        if (Session["usuario"] == null)
-                        {
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
-                                <ul id="login-dp" class="dropdown-menu">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <form class="form" role="form" method="post" action="/Inicio/login" accept-charset="UTF-8" id="login-nav">
-                                                    <div class="form-group">
-                                                        <label class="sr-only" for="exampleInputEmail2">Usuario</label>
-                                                        <input name="Nick" type="text" class="form-control" id="exampleInputEmail2" placeholder="Introduce Usuario" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
-                                                        <input name="Pass" type="password" class="form-control" id="exampleInputPassword2" placeholder="Introduce Contraseña" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary btn-block">Loguearse</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Registrarse <span class="caret"></span></a>
-                                <ul id="login-dp" class="dropdown-menu">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <form class="form" role="form" method="post" action="/Inicio/Registro" accept-charset="UTF-8" id="login-nav">
-                                                    <div class="form-group">
-                                                        <label class="sr-only" for="exampleInputEmail2">Usuario</label>
-                                                        <input name="Nick" type="text" class="form-control" id="exampleInputEmail2" placeholder="Introduce Usuario" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
-                                                        <input name="Pass" type="password" class="form-control" id="exampleInputPassword2" placeholder="Introduce Contraseña" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Perfil</a>
-                                <div class="dropdown-menu">
-                                    <div class="dropdown-item">@Html.ActionLink("Cerrar sesión", "CerrarSesion", "Inicio")</div>
-                                    @if (((TUsuario)Session["usuario"]).Rol.Equals("user"))
-                                    {
-                                        <div class="dropdown-item">@Html.ActionLink("Ver facturas", "verFacturas", "Usuario")</div>
-                                    }
-                                    <span class="badge badge-light">9</span>
-                                </div>
-                            </li>
-                        }
-                    }
+
+                    <li class="nav-item dropdown">
+                        <button type="button" class="btn btn-info">
+                            @Html.ActionLink("Perfil", "perfil", "Inicio", null, new { @style = "color:black; text-decoration:none;" })
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                            </svg>
+                        </button>
+                    </li>
                     @if (Session["usuario"] != null && ((TUsuario)Session["usuario"]).Rol.Equals("user"))
                     {
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-left:325%;">
                             <button class="btn btn-primary">
                                 @Html.ActionLink("Carrito", "CarritoCompra", "Producto", null, new { @style = "color:white; text-decoration:none;" })
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">

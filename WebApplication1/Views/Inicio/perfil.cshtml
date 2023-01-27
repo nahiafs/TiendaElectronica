@@ -1,0 +1,59 @@
+﻿@using MusicaLMFL.Modelo
+@{
+    ViewBag.Title = "perfil";
+}
+
+<div style="width:60%; margin:auto; text-align: center;">
+    @{
+        if (Session["usuario"] == null)
+        {
+            <div style="text-align:center; margin:20px;">
+                <button type="button" class="btn btn-success" onclick="document.getElementById('login').style.display = 'block'; document.getElementById('register').style.display = 'none'">Login</button>
+                <button type="button" class="btn btn-success" onclick="document.getElementById('register').style.display = 'block'; document.getElementById('login').style.display = 'none'">Register</button>
+            </div>
+
+            <div id="login" style="display:none;">
+                <form class="form" role="form" method="post" action="/Inicio/login" accept-charset="UTF-8" id="login-nav">
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail2">Usuario</label>
+                        <input name="Nick" type="text" class="form-control" id="exampleInputEmail2" placeholder="Introduce Usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
+                        <input name="Pass" type="password" class="form-control" id="exampleInputPassword2" placeholder="Introduce Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Loguearse</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="register" style="display:none;">
+                <form class="form" role="form" method="post" action="/Inicio/Registro" accept-charset="UTF-8" id="login-nav">
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail2">Usuario</label>
+                        <input name="Nick" type="text" class="form-control" id="exampleInputEmail2" placeholder="Introduce Usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
+                        <input name="Pass" type="password" class="form-control" id="exampleInputPassword2" placeholder="Introduce Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <button type="button" class="btn btn-danger">
+                @Html.ActionLink("Cerrar sesión", "CerrarSesion", "Inicio", null, new { @style = "color:white; text-decoration:none;" })
+            </button>
+
+            if (((TUsuario)Session["usuario"]).Rol.Equals("user"))
+            {
+                <button type="button" class="btn btn-danger">@Html.ActionLink("Ver facturas", "verFacturas", "Usuario", null, new { @style = "color:white; text-decoration: none;" })</button>
+            }
+        }
+    }
+</div>
