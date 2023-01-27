@@ -242,6 +242,11 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="images\factura.png" />
     <Content Include="images\portada.jpg" />
+    <Content Include="Javascript\Aniadir.js" />
+    <Content Include="Javascript\CarritoCompra.js" />
+    <Content Include="Javascript\Consultar.js" />
+    <Content Include="Javascript\ConsultarPorCategoria.js" />
+    <Content Include="Javascript\Plantilla.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
