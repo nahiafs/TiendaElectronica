@@ -1,10 +1,10 @@
-﻿using System.Web.Mvc;
-using MusicaLMFL.Negocio;
+﻿using MusicaLMFL.Comun;
 using MusicaLMFL.Modelo;
-using MusicaLMFL.Comun;
+using MusicaLMFL.Models;
+using MusicaLMFL.Negocio;
 using System.Collections.Generic;
 using System.Linq;
-using MusicaLMFL.Models;
+using System.Web.Mvc;
 
 namespace WebApplication1.Controllers
 {
@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
         {
             foreach (var item in control.Obtener(new TProducto().GetType()))
             {
-                lista.Add((TProducto) item);
+                lista.Add((TProducto)item);
             }
 
             return View(lista);
@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
         public ActionResult Login(TUsuario usuario)
         {
             TUsuario usuTemp = control.Buscar(usuario.GetType(), "Nick", usuario.Nick).Count == 0 ? null : (TUsuario)control.Buscar(usuario.GetType(), "Nick", usuario.Nick).First();
-           
+
             if (usuTemp != null)
             {
                 if (ComprobarUsuario(usuario, usuTemp))

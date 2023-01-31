@@ -16,6 +16,7 @@ function Enviar() {
 
 function exito(data) {
     $mensaje.textContent = data;
+    alert(data);
 }
 
 function cargarProducto(producto) {

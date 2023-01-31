@@ -52,7 +52,7 @@
 
             if (((TUsuario)Session["usuario"]).Rol.Equals("user"))
             {
-                <button type="button" class="btn btn-danger">@Html.ActionLink("Ver facturas", "verFacturas", "Usuario", null, new { @style = "color:white; text-decoration: none;" })</button>
+                <button type="button" class="btn btn-success">@Html.ActionLink("Ver facturas", "verFacturas", "Usuario", null, new { @style = "color:white; text-decoration: none;" })</button>
             }
         }
     }

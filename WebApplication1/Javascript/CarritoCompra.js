@@ -48,14 +48,18 @@ function renderizarCarrito(carrito) {
     $carrito.textContent = '';
     // Generamos los Nodos a partir de carrito
     var indice = 0;
-    for (let miItem of carrito) {
 
+    for (let miItem of carrito) {
         // Creamos el nodo del item del carrito
         let miNodo = document.createElement('li');
         miNodo.classList.add('list-group-item', 'text-right');
-        // ---------- VER ------------------
-        miNodo.textContent = `${parseInt(miItem[0].Cantidad)} - ${miItem[0]['Nombre']} - ${parseInt(miItem[0]['Precio']) * parseInt(miItem[0].Cantidad)}€`;
-        //miNodo.textContent = `${miItem[0]['Nombre']} - ${parseInt(miItem[0]['Precio'])}€`;
+        // Imagen del producto
+        let miImagen = document.createElement('img');
+        miImagen.src = miItem[0]['Imagen'];
+        miImagen.style.width = '100px';
+        // Informacion producto
+        let miProducto = document.createElement('span');
+        miProducto.innerHTML = `${parseInt(miItem[0].Cantidad)} - ${miItem[0]['Nombre']} - ${parseInt(miItem[0]['Precio']) * parseInt(miItem[0].Cantidad)}€`;
         // Boton de borrar
         let miBoton = document.createElement('button');
         miBoton.classList.add('btn', 'btn-danger', 'mx-5');
@@ -64,7 +68,12 @@ function renderizarCarrito(carrito) {
         indice = indice + 1;
         miBoton.addEventListener('click', borrarItemCarrito);
         // Mezclamos nodos
+        miNodo.appendChild(miImagen);
+        miNodo.appendChild(miProducto);
         miNodo.appendChild(miBoton);
+        miNodo.style.display = 'flex';
+        miNodo.style.alignItems = 'center';
+        miNodo.style.justifyContent = 'space-between';
         $carrito.appendChild(miNodo);
     }
 }
@@ -116,18 +125,17 @@ function comprar() {
             contentType: 'application/json'
         });
     }
-
 }
 
 function exito(data) {
     // Esta función se ejecuta cuando la petición AJAX ha tenido éxito visualizando el mensaje en html.
     $mensaje.textContent = data;
+    alert(data);
     // Se realiza el borrado del carrito del almacén local una vez que la compra ha tenido éxito.
     localStorage.removeItem("carrito");
     $carrito.textContent = '';
     $total.textContent = '';
     init();
-
 }
 
 function lineasFactura(carrito) {
