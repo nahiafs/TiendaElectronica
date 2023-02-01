@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Libreria_V6.Filters;
+using System.Web.Mvc;
 
 namespace WebApplication1
 {
@@ -7,6 +8,7 @@ namespace WebApplication1
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new VerificarSesion());
         }
     }
 }
